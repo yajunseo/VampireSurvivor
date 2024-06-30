@@ -13,6 +13,7 @@ public class Player : MonoBehaviour
     private const string ANIMATOR_PARAMETERS_SPEED = "Speed";
 
     Vector2 _inputVec;
+    public Vector2 inputVec { get { return _inputVec; } }
 
     // Start is called before the first frame update
     void Start()
