@@ -10,16 +10,14 @@ public class Player : MonoBehaviour
     [SerializeField] Animator _animator = null;
     [SerializeField] float _speed = 3.0f;
 
+    public Rigidbody2D rigid { get { return _rigidBody; } }
+
     private const string ANIMATOR_PARAMETERS_SPEED = "Speed";
 
     Vector2 _inputVec;
     public Vector2 inputVec { get { return _inputVec; } }
 
     // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
     private void FixedUpdate()
     {
