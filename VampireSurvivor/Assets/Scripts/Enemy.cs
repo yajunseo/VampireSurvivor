@@ -13,13 +13,15 @@ public class Enemy : MonoBehaviour
 
     Vector2 _dirVec = Vector2.zero;
 
+    private void OnEnable()
+    {
+        _target = GameManager.instance.player.rigid;
+    }
+
     private void FixedUpdate()
     {
         if (!_isLive)
             return;
-
-        if (_target == null && GameManager.instance.player.rigid != null)
-            _target = GameManager.instance.player.rigid;
 
         _dirVec = _target.position - _rigid.position;
         Vector2 nextVec = _dirVec.normalized * _speed * Time.fixedDeltaTime;
