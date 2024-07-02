@@ -4850,7 +4850,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefabs:
-  - {fileID: 8052056908715075489, guid: da063a529ddec044e9954ba26307c874, type: 3}
   - {fileID: 2619577235795855139, guid: 72e67dc9b2e14c84a83eda3686a0d545, type: 3}
 --- !u!4 &470480784
 Transform:
@@ -9826,6 +9825,15 @@ MonoBehaviour:
   - {fileID: 904582505}
   - {fileID: 373817597}
   _spawnDuration: 0.2
+  _spawnData:
+  - spriteType: 1
+    spawnTime: 0.7
+    health: 10
+    speed: 1.5
+  - spriteType: 2
+    spawnTime: 0.2
+    health: 15
+    speed: 2.4
 --- !u!1 &1716362680
 GameObject:
   m_ObjectHideFlags: 0

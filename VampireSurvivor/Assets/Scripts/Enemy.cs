@@ -4,18 +4,33 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    [SerializeField] float _speed = 2.5f;
     [SerializeField] Rigidbody2D _rigid;
     [SerializeField] SpriteRenderer _spriter;
+    [SerializeField] Animator _animator;
+    [SerializeField] RuntimeAnimatorController[] _animControllers;
 
     Rigidbody2D _target;
     bool _isLive = true;
+
+    float _speed = 0f;
+    float _health = 1f;
+    float _maxHealth = 1f;
 
     Vector2 _dirVec = Vector2.zero;
 
     private void OnEnable()
     {
         _target = GameManager.instance.player.rigid;
+        _isLive = true;
+        _health = _maxHealth;
+    }
+
+    public void Init(SpawnData data)
+    {
+        _animator.runtimeAnimatorController = _animControllers[data.spriteType - 1];
+        _speed = data.speed;
+        _maxHealth = data.health;
+        _health = data.health;
     }
 
     private void FixedUpdate()
