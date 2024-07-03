@@ -51,4 +51,30 @@ public class Enemy : MonoBehaviour
 
         _spriter.flipX = _dirVec.x < 0 ? true : false;
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (!collision.CompareTag("Bullet"))
+            return;
+
+        Bullet bullet = collision.GetComponent<Bullet>();
+
+        _health -= bullet.damage;
+
+        if(_health > 0)
+        {
+
+        }
+
+        else
+        {
+            Dead();
+        }
+    }
+
+    private void Dead()
+    {
+        _isLive = false;
+        gameObject.SetActive(false);
+    }
 }
