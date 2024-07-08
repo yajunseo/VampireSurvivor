@@ -8,9 +8,11 @@ public class Player : MonoBehaviour
     [SerializeField] Rigidbody2D _rigidBody = null;
     [SerializeField] SpriteRenderer _spriteRender = null;
     [SerializeField] Animator _animator = null;
+    [SerializeField] Scanner _scanner = null;
     [SerializeField] float _speed = 3.0f;
 
     public Rigidbody2D rigid { get { return _rigidBody; } }
+    public Scanner scanner { get { return _scanner; } }
 
     private const string ANIMATOR_PARAMETERS_SPEED = "Speed";
 

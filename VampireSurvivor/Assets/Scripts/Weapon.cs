@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 public class Weapon : MonoBehaviour
@@ -8,7 +9,9 @@ public class Weapon : MonoBehaviour
     [SerializeField] private int _prefabId;
     [SerializeField] private float _damage;
     [SerializeField] private int _count;
-    [SerializeField] private int _speed;
+    [SerializeField] private float _speed;
+
+    float _timer;
 
     private void Start()
     {
@@ -24,12 +27,20 @@ public class Weapon : MonoBehaviour
 
                 break;
             default:
+                _timer += Time.deltaTime;
+
+                if(_timer > _speed)
+                {
+                    _timer = 0;
+                    Fire();
+                }
+
                 break;
         }
 
         if(Input.GetButtonDown("Jump"))
         {
-            LevelUp(50, 3);
+            LevelUp(10, 1);
         }
     }
 
@@ -52,6 +63,7 @@ public class Weapon : MonoBehaviour
 
                 break;
             default:
+                _speed = 0.3f;
                 break;
         }
     }
@@ -80,7 +92,22 @@ public class Weapon : MonoBehaviour
             bullet.transform.Rotate(rotVec);
             bullet.transform.Translate(bullet.transform.up * 1.5f, Space.World);
 
-            bullet.Init(_damage, -1);
+            bullet.Init(_damage, -1, Vector3.zero);
         }
+    }
+
+    private void Fire()
+    {
+        Transform target = GameManager.instance.player.scanner.nearestTarget;
+
+        if (target == null)
+            return;
+
+        Vector3 dir = (target.position - transform.position).normalized;
+
+        Transform bullet = GameManager.instance.poolManger.Get(_prefabId).transform;
+        bullet.position = transform.position;
+        bullet.rotation = Quaternion.FromToRotation(Vector3.up, dir);
+        bullet.GetComponent<Bullet>().Init(_damage, _count, dir);
     }
 }
