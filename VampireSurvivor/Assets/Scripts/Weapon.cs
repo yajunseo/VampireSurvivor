@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
+using TMPro;
 using UnityEngine;
 
 public class Weapon : MonoBehaviour
@@ -11,11 +12,15 @@ public class Weapon : MonoBehaviour
     [SerializeField] private int _count;
     [SerializeField] private float _speed;
 
-    float _timer;
+    public int id { get { return _id; } }
+    public float speed { get { return _speed; } set { _speed = value; } }
 
-    private void Start()
+    float _timer;
+    Player _player;
+
+    private void Awake()
     {
-        Init();
+        _player = GameManager.instance.player;
     }
 
     private void Update()
@@ -51,10 +56,29 @@ public class Weapon : MonoBehaviour
 
         if (_id == 0)
             Batch();
+
+        _player.BroadcastMessage("ApplyGear", SendMessageOptions.DontRequireReceiver);
     }
 
-    public void Init()
+    public void Init(ItemData data)
     {
+        name = string.Format("Weapon{0}", data._itemId);
+        transform.parent = _player.transform;
+        transform.localPosition = Vector3.zero;
+
+        _id = data._itemId;
+        _damage = data._baseDamage;
+        _count = data._baseCount;
+
+        for(int i = 0; i < GameManager.instance.poolManger.prefabs.Length; i++)
+        {
+            if(data._projectile == GameManager.instance.poolManger.prefabs[i])
+            {
+                _prefabId = i;
+                break;
+            }
+        }
+
         switch(_id)
         {
             case 0:
@@ -63,9 +87,11 @@ public class Weapon : MonoBehaviour
 
                 break;
             default:
-                _speed = 0.3f;
+                _speed = 0.4f;
                 break;
         }
+
+        _player.BroadcastMessage("ApplyGear", SendMessageOptions.DontRequireReceiver);
     }
 
     private void Batch()

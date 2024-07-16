@@ -11,6 +11,8 @@ public class Player : MonoBehaviour
     [SerializeField] Scanner _scanner = null;
     [SerializeField] float _speed = 3.0f;
 
+    public float speed { get { return _speed; } set { _speed = value; } }
+
     public Rigidbody2D rigid { get { return _rigidBody; } }
     public Scanner scanner { get { return _scanner; } }
 

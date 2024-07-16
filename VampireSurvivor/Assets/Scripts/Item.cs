@@ -8,6 +8,7 @@ public class Item : MonoBehaviour
     public ItemData _data;
     public int _level;
     public Weapon _weapon;
+    public Gear _gear;
 
     [SerializeField] Image _icon;
     [SerializeField] Text _textLevel;
@@ -28,12 +29,34 @@ public class Item : MonoBehaviour
         switch (_data.itemType)
         {
             case ItemData.ItemType.MELEE:
-                break;
             case ItemData.ItemType.RANGE:
+                if (_level == 0)
+                {
+                    GameObject newWeapon = new GameObject();
+                    _weapon = newWeapon.AddComponent<Weapon>();
+                    _weapon.Init(_data);
+                }
+                else
+                {
+                    float nextDamage = _data._baseDamage + (1 + _data._damages[_level]);
+                    int nextCount = _data.counts[_level];
+
+                    _weapon.LevelUp(nextDamage, nextCount);
+                }
                 break;
             case ItemData.ItemType.GLOVE:
-                break;
             case ItemData.ItemType.SHOE:
+                if (_level == 0)
+                {
+                    GameObject newGear = new GameObject();
+                    _gear = newGear.AddComponent<Gear>();
+                    _gear.Init(_data);
+                }
+                else
+                {
+                    float nextRate = _data._damages[_level];
+                    _gear.LevelUp(nextRate);
+                }
                 break;
             case ItemData.ItemType.HEAL:
                 break;
