@@ -7,10 +7,15 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
 
     [Header("Game Object")]
+    private bool _isLive = true;
+    public bool isLive { get { return _isLive; } }
     [SerializeField] Player _player = null;
     public Player player { get { return _player; } }
     [SerializeField] PoolManager _poolManger = null;
     public PoolManager poolManger { get { return _poolManger; } }
+
+    [SerializeField] LevelUp _uiLevelUp = null;
+    public LevelUp uiLevelUp { get { return _uiLevelUp; } }
 
     [Header("Game Control")]
     private float _gameTime;
@@ -33,10 +38,15 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         health = maxHealth;
+
+        uiLevelUp.Select(0);
     }
 
     private void Update()
     {
+        if (!_isLive)
+            return;
+
         _gameTime += Time.deltaTime;
 
         if(_gameTime > MAX_GAME_TIME)
@@ -49,11 +59,23 @@ public class GameManager : MonoBehaviour
     {
         exp++;
 
-        if (exp == nextExp[level])
+        if (exp == nextExp[Mathf.Min(level, nextExp.Length - 1)])
         {
             level++;
             exp = 0;
-
+            uiLevelUp.Show();
         }
+    }
+
+    public void Stop()
+    {
+        _isLive = false;
+        Time.timeScale = 0.0f;
+    }
+
+    public void Resume()
+    {
+        _isLive = true;
+        Time.timeScale = 1.0f;
     }
 }

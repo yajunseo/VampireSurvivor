@@ -27,6 +27,9 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (!GameManager.instance.isLive)
+            return;
+
         if (_rigidBody != null)
         {
             Vector2 movePos = _inputVec.normalized * _speed * Time.fixedDeltaTime;
@@ -41,7 +44,10 @@ public class Player : MonoBehaviour
 
     private void LateUpdate()
     {
-        if(_animator != null)
+        if (!GameManager.instance.isLive)
+            return;
+
+        if (_animator != null)
         {
             _animator.SetFloat(ANIMATOR_PARAMETERS_SPEED, _inputVec.magnitude);
         }
