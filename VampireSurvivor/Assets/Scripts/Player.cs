@@ -10,11 +10,13 @@ public class Player : MonoBehaviour
     [SerializeField] Animator _animator = null;
     [SerializeField] Scanner _scanner = null;
     [SerializeField] float _speed = 3.0f;
+    [SerializeField] Hand[] _hands;
 
     public float speed { get { return _speed; } set { _speed = value; } }
 
     public Rigidbody2D rigid { get { return _rigidBody; } }
     public Scanner scanner { get { return _scanner; } }
+    public Hand[] hands { get { return _hands; } }
 
     private const string ANIMATOR_PARAMETERS_SPEED = "Speed";
 
